@@ -1,0 +1,10 @@
+Total songs processed: 41
+Successful: 34
+Failed: 7
+Already existed: 13
+Success Percentage: 82.93%
+Failure Percentage: 17.07%
+Success to Failure Ratio: 4.86
+Failure Rate: 0.17
+Total Time for 41: 00:00:19
+Average Time per Song: 0.46935417012470526
