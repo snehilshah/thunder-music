@@ -8,7 +8,8 @@ import os
 # and add the lyrics to the mp3 file
 # The lyrics should be in the lrc file with the same name as the mp3 file
 
-songs_path = "D:\\UpdateMusic\\downloadedDemistify\\demistify\\**\\*.mp3"
+songs_path = "D:\\UpdateMusic\\Hindi\\Deemix\\Dhoom\\**\\*.mp3"
+lrc_path = "D:\\UpdateMusic\\lyrics\\"
 
 songs = glob.glob(songs_path, recursive=True)
 print(f"Total songs: {len(songs)}")
@@ -28,14 +29,17 @@ for song in songs:
     music = music_tag.load_file(song)
 
     base_name = os.path.splitext(song)[0]
-    lrc_file = base_name + ".lrc"
+    lrc_file = base_name.split('\\')[-1] + ".lrc"
+    lrc_full_path = os.path.join(lrc_path, lrc_file)
 
-    if os.path.exists(lrc_file):
-        with open(lrc_file, 'r', encoding='utf-8') as file:
+    print(lrc_full_path)
+
+    if os.path.exists(lrc_full_path):
+        with open(lrc_full_path, 'r', encoding='utf-8') as file:
             lyrics = file.read()
     else:
         print(f'{BRIGHT_RED}Failed{RESET}')
-        failed.append([song, 'Not Found'])
+        failed.append([song.split('-')[-1].strip(), 'File Not Found'])
         continue
 
     params = {
@@ -57,8 +61,6 @@ for song in songs:
         except:
             print(f'{BRIGHT_RED}Failed{RESET}')
             failed.append([params['track_name'], 'Failed to save lyrics'])
-            print(f'{BRIGHT_RED}Failed{RESET}')
-            failed.append([params['track_name'], 'Not Found'])
 
     except:
         print(f'{BRIGHT_RED}Failed{RESET}')
