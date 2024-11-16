@@ -215,3 +215,18 @@
 215 - Dil To Bachcha Hai
 216 - Sajni (From "Laapataa Ladies")
 217 - Fakira
+1 - Shikdum
+2 - Dilbara (Reprisal) Edit
+3 - Dilbara
+4 - Dhoom Machale
+5 - Dhoom Dhoom
+6 - Salaame
+7 - Touch Me
+8 - Dil Laga Na
+9 - Crazy Kiya Re
+10 - Dhoom Again
+11 - Bande Hain Hum Uske
+12 - Tu Hi Junoon
+13 - Dhoom Machale Dhoom
+14 - Malang
+15 - Kamli
