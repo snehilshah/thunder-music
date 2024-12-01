@@ -230,3 +230,9 @@
 13 - Dhoom Machale Dhoom
 14 - Malang
 15 - Kamli
+1 - Kal Ho Naa Ho
+2 - Maahi Ve
+3 - It's the Time to Disco
+4 - Kuch To Hua Hai
+5 - Kal Ho Naa Ho (Sad)
+6 - Pretty Woman
