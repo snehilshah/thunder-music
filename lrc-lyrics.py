@@ -4,16 +4,15 @@ import glob
 import music_tag
 import os
 
-# Check for lrc file in the same directory as the mp3 file
+# Check for lrc file
 # and add the lyrics to the mp3 file
 # The lyrics should be in the lrc file with the same name as the mp3 file
 
-songs_path = "D:\\UpdateMusic\\Deemix\\Kal Ho Naa Ho\\**\\*.mp3"
+songs_path = "D:\\UpdateMusic\\**\\*.mp3"
 lrc_path = "D:\\UpdateMusic\\lyrics\\"
 
 songs = glob.glob(songs_path, recursive=True)
 print(f"Total songs: {len(songs)}")
-print(songs)
 failed = []
 success = []
 success_count = 0
@@ -32,13 +31,10 @@ for song in songs:
     lrc_file = base_name.split('\\')[-1] + ".lrc"
     lrc_full_path = os.path.join(lrc_path, lrc_file)
 
-    print(lrc_full_path)
-
     if os.path.exists(lrc_full_path):
         with open(lrc_full_path, 'r', encoding='utf-8') as file:
             lyrics = file.read()
     else:
-        print(f'{BRIGHT_RED}Failed{RESET}')
         failed.append([song.split('-')[-1].strip(), 'File Not Found'])
         continue
 
@@ -57,25 +53,14 @@ for song in songs:
             music.save()
             success_count += 1
             success.append([success_count, params['track_name']])
-            print(f'{GREEN}Success{RESET}')
+            print(f'{GREEN}Success: {params["track_name"]}{RESET}')
         except:
-            print(f'{BRIGHT_RED}Failed{RESET}')
+            # print(f'{BRIGHT_RED}Failed{RESET}')
             failed.append([params['track_name'], 'Failed to save lyrics'])
 
     except:
-        print(f'{BRIGHT_RED}Failed{RESET}')
+        # print(f'{BRIGHT_RED}Failed{RESET}')
         failed.append(song)
-
-# Write the failed songs to a file
-with open('zotify/lrc-fail.txt', 'a') as file:
-    for song in failed:
-        file.write(f"{song[0]} - {song[1]}\n")
-    file.close()
-
-with open('zotify/lrc-found.txt', 'a') as file:
-    for song in success:
-        file.write(f"{song[0]} - {song[1]}\n")
-    file.close()
 
 print(f"Success: {len(success)}")
 print(f"Failed: {len(failed)}")
