@@ -3,6 +3,7 @@ from mutagen.easyid3 import EasyID3
 import glob
 import music_tag
 import os
+import csv
 
 # Check for lrc file
 # and add the lyrics to the mp3 file
@@ -10,12 +11,14 @@ import os
 
 songs_path = "D:\\UpdateMusic\\**\\*.mp3"
 lrc_path = "D:\\UpdateMusic\\lyrics\\"
+csv_file_path = ".\\lyrics\\lrc\\lrc-available.csv"
 
 songs = glob.glob(songs_path, recursive=True)
 print(f"Total songs: {len(songs)}")
 failed = []
 success = []
 success_count = 0
+successful_entries = []
 
 GREEN = '\033[32m'
 BRIGHT_MAGENTA = '\033[95m'
@@ -54,14 +57,31 @@ for song in songs:
             success_count += 1
             success.append([success_count, params['track_name']])
             print(f'{GREEN}Success: {params["track_name"]}{RESET}')
+
+            successful_entries.append(
+                [params['track_name'], params['artist_name'], params['album_name']])
         except:
-            # print(f'{BRIGHT_RED}Failed{RESET}')
             failed.append([params['track_name'], 'Failed to save lyrics'])
 
     except:
-        # print(f'{BRIGHT_RED}Failed{RESET}')
         failed.append(song)
 
-print(f"Success: {len(success)}")
-print(f"Failed: {len(failed)}")
-print(f"Total: {len(songs)}")
+with open(csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(['title', 'artist', 'album'])
+    csvwriter.writerows(successful_entries)
+
+total_songs = len(songs)
+total_success = len(success)
+total_failed = len(failed)
+success_percentage = (total_success / total_songs) * \
+    100 if total_songs > 0 else 0
+failed_percentage = (total_failed / total_songs) * \
+    100 if total_songs > 0 else 0
+
+with open('.\\lyrics\\lrc\\metrics.txt', 'w', encoding='utf-8') as result_file:
+    result_file.write(f"Total songs: {total_songs}\n")
+    result_file.write(f"Success: {total_success}\n")
+    result_file.write(f"Failed: {total_failed}\n")
+    result_file.write(f"Success Percentage: {success_percentage:.2f}%\n")
+    result_file.write(f"Failed Percentage: {failed_percentage:.2f}%\n")
