@@ -30,12 +30,12 @@ def write_song_data(title, artist, album, lyrics_found, lyrics_status, existed):
         exists_count += 1
     songs_data.append([title, artist, album, lyrics_status, existed])
     if lyrics_found:
-        with open('lyrics/oldies/fetch/success.csv', 'a', newline='', encoding='utf-8') as file:
+        with open('lyrics/oldies/success.csv', 'a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow([title, artist, album, lyrics_status, existed])
         success_count += 1
     else:
-        with open('lyrics/oldies/fetch/failed.csv', 'a', newline='',  encoding='utf-8') as file:
+        with open('lyrics/oldies/failed.csv', 'a', newline='',  encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow([title, artist, album, lyrics_status, existed])
         failed_count += 1
@@ -93,7 +93,7 @@ for song in songs:
 
 # Write the songs_data to csv file
 
-with open('lyrics/oldies/songs_data.csv', 'w', newline='',  encoding='utf-8') as file:
+with open('data/oldies.csv', 'a', newline='\n',  encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(['Title', 'Artist', 'Album', 'Lyrics Status'])
     for song in songs_data:
@@ -117,7 +117,7 @@ end = time.time()
 total_time = end - start
 average_time = total_time / total_songs
 total_time_formatted = time.strftime("%H:%M:%S", time.gmtime(total_time))
-with open('lyrics/oldies/fetch/metrics.txt', 'w', encoding='utf-8') as metrics_file:
+with open('lyrics/oldies/metrics.txt', 'w', encoding='utf-8') as metrics_file:
     metrics_file.write(f"Total songs processed: {total_songs}\n")
     metrics_file.write(f"Successful: {success_count}\n")
     metrics_file.write(f"Failed: {failed_count}\n")
