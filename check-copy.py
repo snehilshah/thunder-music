@@ -3,10 +3,10 @@ import csv
 from mutagen.easyid3 import EasyID3
 
 # Check copy of mp3 files based on ID3 tags
-# WARNING: The files from `dir1` will be deleted is shouldDelete is set to True
+# WARNING: The files from `dir1` will be deleted if shouldDelete is set to True
 # if they have the same title, artist, and year as the files in `dir2`
 
-shouldDelete = False # Set to True to delete the files from `dir1`
+shouldDelete = False  # Set to True to delete the files from `dir1`
 
 def get_mp3_files(directory):
     mp3_files = []
@@ -29,12 +29,15 @@ def get_mp3_metadata(file_path):
         return None, None, None
 
 
-def find_duplicates(dir1, dir2):
+def find_duplicates(dir1, dir2=None):
     files1 = get_mp3_files(dir1)
-    files2 = get_mp3_files(dir2)
-
     metadata1 = {get_mp3_metadata(f): f for f in files1}
-    metadata2 = {get_mp3_metadata(f): f for f in files2}
+
+    if dir2 is not None:
+        files2 = get_mp3_files(dir2)
+        metadata2 = {get_mp3_metadata(f): f for f in files2}
+    else:
+        metadata2 = metadata1
 
     duplicates = set(metadata1.keys()) & set(metadata2.keys())
 
@@ -43,19 +46,21 @@ def find_duplicates(dir1, dir2):
         writer.writerow(['Title', 'Artist', 'Year', 'File 1', 'File 2'])
 
         for meta in duplicates:
-            writer.writerow([meta[0], meta[1], meta[2],
-                            metadata1[meta], metadata2[meta]])
-            print(f"Duplicate found: {meta}")
-            print(f"File 1: {metadata1[meta]}")
-            print(f"File 2: {metadata2[meta]}")
-            if shouldDelete: 
-                os.remove(metadata1[meta])
-                txt_file.write(f"Deleted: {metadata1[meta]}\n")
-                print(f"Deleted: {metadata1[meta]}")
+            if metadata1[meta] != metadata2[meta]:
+                writer.writerow([meta[0], meta[1], meta[2],
+                                metadata1[meta], metadata2[meta]])
+                print(f"Duplicate found: {meta}")
+                print(f"File 1: {metadata1[meta]}")
+                print(f"File 2: {metadata2[meta]}")
+                if shouldDelete:
+                    os.remove(metadata1[meta])
+                    txt_file.write(f"Deleted: {metadata1[meta]}\n")
+                    print(f"Deleted: {metadata1[meta]}")
 
 
 if __name__ == "__main__":
-    dir1 = "D:\\UpdateMusic\\Hindi"
+    dir1 = "D:\\UpdateMusic"
+    # Send dir2 as None to check for duplicates within the same directory
     dir2 = "D:\\UpdateMusic\\downloadedDemistify\\demistify"
 
     find_duplicates(dir1, dir2)
