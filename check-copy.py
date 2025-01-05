@@ -3,8 +3,10 @@ import csv
 from mutagen.easyid3 import EasyID3
 
 # Check copy of mp3 files based on ID3 tags
-# WARNING: The files from `dir1` will be deleted
+# WARNING: The files from `dir1` will be deleted is shouldDelete is set to True
 # if they have the same title, artist, and year as the files in `dir2`
+
+shouldDelete = False # Set to True to delete the files from `dir1`
 
 def get_mp3_files(directory):
     mp3_files = []
@@ -46,9 +48,10 @@ def find_duplicates(dir1, dir2):
             print(f"Duplicate found: {meta}")
             print(f"File 1: {metadata1[meta]}")
             print(f"File 2: {metadata2[meta]}")
-            os.remove(metadata1[meta])
-            txt_file.write(f"Deleted: {metadata1[meta]}\n")
-            print(f"Deleted: {metadata1[meta]}")
+            if shouldDelete: 
+                os.remove(metadata1[meta])
+                txt_file.write(f"Deleted: {metadata1[meta]}\n")
+                print(f"Deleted: {metadata1[meta]}")
 
 
 if __name__ == "__main__":
