@@ -9,7 +9,7 @@ import csv
 # and add the lyrics to the mp3 file
 # The lyrics should be in the lrc file with the same name as the mp3 file
 
-songs_path = "D:\\UpdateMusic\\**\\*.mp3"
+songs_path = "D:\\UpdateMusic\\deemix\\**\\*.mp3"
 lrc_path = "D:\\UpdateMusic\\lyrics\\"
 csv_file_path = ".\\lyrics\\lrc\\lrc-available.csv"
 

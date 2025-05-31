@@ -70,8 +70,6 @@ for song in songs:
                 continue
             synced_lyrics = res['syncedLyrics']
             try:
-                if params['track_name'] == 'Farsh Pe Khade':
-                    print(synced_lyrics)
                 music['lyrics'] = synced_lyrics
                 music.save()
                 write_song_data(
