@@ -63,10 +63,9 @@ def process_category(folder: str, csv_name: str):
         print(f"{YELLOW}  No MP3 files found in {songs_path}{RESET}")
         return
 
-    data_csv = f"data/{csv_name}_new.csv"
-    os.makedirs("data", exist_ok=True)
-    # Check both old and new CSVs to avoid duplicates
-    existing = load_existing(f"data/{csv_name}.csv") | load_existing(data_csv)
+    data_csv = f"data/recovered/{csv_name}.csv"
+    os.makedirs("data/recovered", exist_ok=True)
+    existing = set()  # Fresh write, no duplicate checking
 
     print(
         f"\n{CYAN}{'='*60}\n  {csv_name.upper()}  ({folder}/)\n"
